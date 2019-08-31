@@ -18,6 +18,12 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
+Plug 'majutsushi/tagbar'
+Plug 'w0rp/ale'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'junegunn/goyo.vim'
+Plug 'ycm-core/youcompleteme'
+Plug 'jpalardy/vim-slime'
 
 " Colorschemes
 Plug 'morhetz/gruvbox'
@@ -48,17 +54,25 @@ map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
 
-" Set leader to ,
-let mapleader = ","
-
 " Allow switching buffers without saving first
 set hidden
 
 " Show line number
 set number
+set relativenumber
 
 " Turn off audio bell
 set vb
+
+" Allow backspace to delete autoindents
+set backspace=indent,start,eol
+
+" Set leader to ,
+let mapleader = ","
+
+" Make editing vimrc faster
+noremap <leader>ev :vsplit $MYVIMRC<cr>
+noremap <leader>sv :source $MYVIMRC<cr>
 
 " Highlight search, turn off of <leader><cr>
 set hlsearch
@@ -91,10 +105,51 @@ let g:NERDDefaultAlign = 'left'
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Fugitive
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+noremap <leader>gs :Gstatus<cr>
+noremap <leader>gc :Gcommit<cr>
+noremap <leader>gd :Gdiff<cr>
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Airline
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " let g:airline_powerline_fonts = 1
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => GitGutter
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:gitgutter_max_signs = 750
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => NERDCommenter
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:tagbar_ctags_bin = "/home/aseibert/bin/ctags"
+noremap <silent> <leader>b :TagbarToggle<cr>
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => vim-slime
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:slime_target = "tmux"
+let g:slime_python_ipython = 1
+let g:slime_default_config = {"socket_name": "default", "target_pane": "{right-of}"}
+let g:slime_dont_ask_default = 1
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => vim-slime
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:ale_enabled = 1
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -105,8 +160,28 @@ au BufNewFile,BufRead *.py
     \ set tabstop=4 |
     \ set softtabstop=4 |
     \ set shiftwidth=4 |
-    \ set textwidth=79 |
+    \ set textwidth=87 |
     \ set expandtab |
     \ set autoindent |
     \ set fileformat=unix |
 
+au BufNewFile,BufRead *.groovy,*.gm,*.g
+    \ setf groovy
+
+au BufNewFile,BufRead *.groovy,*.gm,*.g
+    \ set tabstop=2 |
+    \ set softtabstop=2 |
+    \ set shiftwidth=2 |
+    \ set expandtab |
+    \ set autoindent |
+    \ set fileformat=unix |
+
+au BufNewFile,BufRead *.md
+    \ set tabstop=2 |
+    \ set softtabstop=2 |
+    \ set shiftwidth=2 |
+    \ set expandtab |
+    \ set autoindent |
+    \ set fileformat=unix |
+    \ set textwidth=87 |
+    \ set wrap |
