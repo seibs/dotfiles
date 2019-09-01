@@ -13,17 +13,27 @@ endif
 " Begin plugin spec
 call plug#begin('~/.vim/plugged')
 
-Plug 'scrooloose/nerdtree'
-Plug 'scrooloose/nerdcommenter'
+" Vim Improvements
 Plug 'vim-airline/vim-airline'
-Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
+
+" Navigation-related
+Plug 'scrooloose/nerdtree'
 Plug 'majutsushi/tagbar'
-Plug 'w0rp/ale'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'junegunn/goyo.vim'
+
+" Coding helpers
+Plug 'scrooloose/nerdcommenter'
+Plug 'w0rp/ale'
 Plug 'ycm-core/youcompleteme'
 Plug 'jpalardy/vim-slime'
+
+" Git-related
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+
+" Prose-related
+Plug 'junegunn/goyo.vim'
+Plug 'reedes/vim-pencil'
 
 " Colorschemes
 Plug 'morhetz/gruvbox'
@@ -146,11 +156,23 @@ let g:slime_dont_ask_default = 1
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => vim-slime
+" => ale
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 let g:ale_enabled = 1
 
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Pencil
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:pencil#wrapModeDefault = 'soft'
+
+augroup pencil
+  autocmd!
+  autocmd FileType markdown,mkd call pencil#init()
+  autocmd FileType text         call pencil#init()
+augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Filetype-specific
