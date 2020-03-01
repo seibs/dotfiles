@@ -207,3 +207,11 @@ au BufNewFile,BufRead *.md
     \ set fileformat=unix |
     \ set textwidth=87 |
     \ set wrap |
+
+au BufNewFile,BufRead *.tex
+    \ set tabstop=2 |
+    \ set softtabstop=2 |
+    \ set shiftwidth=2 |
+    \ set expandtab |
+    \ set autoindent |
+    \ set fileformat=unix |
