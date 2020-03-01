@@ -26,6 +26,8 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'w0rp/ale'
 Plug 'ycm-core/youcompleteme'
 Plug 'jpalardy/vim-slime'
+Plug 'sirver/ultisnips'
+Plug 'honza/vim-snippets'
 
 " Git-related
 Plug 'tpope/vim-fugitive'
@@ -67,12 +69,15 @@ map <C-l> <C-W>l
 " Allow switching buffers without saving first
 set hidden
 
-" Show line number
+" Show hybrid line number
 set number
 set relativenumber
 
 " Turn off audio bell
 set vb
+
+" Add vertical column at textwidth+1
+set colorcolumn=+1
 
 " Allow backspace to delete autoindents
 set backspace=indent,start,eol
@@ -173,6 +178,21 @@ augroup pencil
   autocmd FileType markdown,mkd call pencil#init()
   autocmd FileType text         call pencil#init()
 augroup END
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Ultisnips
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+let g:UltiSnipsExpandTrigger = "<C-j>"
+let g:UltiSnipsJumpForwardTrigger = "<C-j>"
+let g:UltiSnipsJumpBackwardTrigger = "<C-k>"
+
+let g:UltiSnipsEditSplit = "vertical"
+let g:ultisnips_python_style = "numpy"
+"let g:ultisnips_python_quoting_style = "single"
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Filetype-specific
