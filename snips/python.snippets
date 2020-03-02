@@ -1,0 +1,79 @@
+# Auto-generate docstrings
+global !p
+
+def _reconstruct_types(obj):
+    import ast
+    if obj is None:
+        return ''
+    elif isinstance(obj, str):
+        return obj
+    elif isinstance(obj, ast.Name):
+        return obj.id
+    elif isinstance(obj, ast.Attribute):
+        return '{}.{}'.format(
+            _reconstruct_types(obj.value),
+            _reconstruct_types(obj.attr),
+        )
+    elif isinstance(obj, ast.Subscript):
+        return '{}[{}]'.format(
+            _reconstruct_types(obj.value),
+            _reconstruct_types(obj.slice),
+        )
+    elif isinstance(obj, ast.Index):
+        return _reconstruct_types(obj.value)
+    elif isinstance(obj, ast.Tuple):
+        return ', '.join([_reconstruct_types(elt) for elt in obj.elts])
+    elif isinstance(obj, ast.List):
+        return '[{}]'.format(
+            ', '.join([_reconstruct_types(elt) for elt in obj.elts])
+        )
+    elif isinstance(obj, ast.Ellipsis):
+        return '...'
+    else:
+        return ''
+
+def _extract_args(text):
+    import ast
+    import textwrap
+
+    text = textwrap.dedent(text) + '\n    pass'
+    try:
+        parsed = ast.parse(text)
+    except:
+        return [], ''
+
+    if len(parsed.body) != 1:
+        return [], ''
+
+    args = []
+    for arg in parsed.body[0].args.args:
+        args.append(arg.arg)
+    returns = _reconstruct_types(parsed.body[0].returns)
+    return args, returns
+
+def write_parameters(snip, text):
+    args, returns = _extract_args(text)
+
+    if len(args) > 0:
+        snip += ''
+        snip.shift(1)
+        snip += 'Parameters'
+        snip += '----------'
+        for arg in args:
+            snip += arg
+        snip.unshift(1)
+
+    if returns:
+        snip += ''
+        snip.shift(1)
+        snip += 'Returns'
+        snip += '-------'
+        snip += returns
+        snip.unshift(1)
+endglobal
+
+snippet doc "construct docstring from selection" m
+${VISUAL}
+    """$1`!p write_parameters(snip, snip.v.text)`
+    """
+endsnippet
