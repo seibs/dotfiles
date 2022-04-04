@@ -7,6 +7,7 @@ Plug 'hrsh7th/cmp-nvim-lsp'
 
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'lewis6991/gitsigns.nvim'
 
 Plug 'morhetz/gruvbox'
 Plug 'folke/lsp-colors.nvim'
@@ -16,9 +17,10 @@ Plug 'scrooloose/nerdcommenter'
 
 Plug 'jpalardy/vim-slime'
 
-" Git-related
-" Plug 'tpope/vim-fugitive'
-" Plug 'airblade/vim-gitgutter'
+Plug 'kyazdani42/nvim-web-devicons' " for file icons
+Plug 'kyazdani42/nvim-tree.lua'
+
+Plug 'vim-test/vim-test'
 
 call plug#end()
 
@@ -44,54 +46,82 @@ lua << EOF
     })
   })
 
-
-  local nvim_lsp = require('lspconfig')
+  -- Mappings.
+  -- See `:help vim.diagnostic.*` for documentation on any of the below functions
+  local opts = { noremap=true, silent=true }
+  vim.api.nvim_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
+  vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+  vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+  vim.api.nvim_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
   
   -- Use an on_attach function to only map the following keys
   -- after the language server attaches to the current buffer
   local on_attach = function(client, bufnr)
-    local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-    local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-  
     -- Enable completion triggered by <c-x><c-o>
-    buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
   
     -- Mappings.
-    local opts = { noremap=true, silent=true }
-  
     -- See `:help vim.lsp.*` for documentation on any of the below functions
-    buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-    buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-    buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-    buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-    buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-    buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-    buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-    buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-    buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-    buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-    buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-    buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-    buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-    buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-    buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-    buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-    buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-  
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
   end
   
   -- Use a loop to conveniently call 'setup' on multiple servers and
   -- map buffer local keybindings when the language server attaches
   local servers = { 'pyright' }
-  for _, lsp in ipairs(servers) do
-    nvim_lsp[lsp].setup {
+  for _, lsp in pairs(servers) do
+    require('lspconfig')[lsp].setup {
       on_attach = on_attach,
       flags = {
+        -- This will be the default in neovim 0.7+
         debounce_text_changes = 150,
       }
     }
   end
 
+  require('nvim-tree').setup()
+  require('gitsigns').setup{
+    on_attach = function(bufnr)
+      local function map(mode, lhs, rhs, opts)
+	opts = vim.tbl_extend('force', {noremap = true, silent = true}, opts or {})
+        vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts)
+      end
+  
+      -- Navigation
+      map('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", {expr=true})
+      map('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", {expr=true})
+  
+      -- Actions
+      map('n', '<leader>hs', ':Gitsigns stage_hunk<CR>')
+      map('v', '<leader>hs', ':Gitsigns stage_hunk<CR>')
+      map('n', '<leader>hr', ':Gitsigns reset_hunk<CR>')
+      map('v', '<leader>hr', ':Gitsigns reset_hunk<CR>')
+      map('n', '<leader>hS', '<cmd>Gitsigns stage_buffer<CR>')
+      map('n', '<leader>hu', '<cmd>Gitsigns undo_stage_hunk<CR>')
+      map('n', '<leader>hR', '<cmd>Gitsigns reset_buffer<CR>')
+      map('n', '<leader>hp', '<cmd>Gitsigns preview_hunk<CR>')
+      map('n', '<leader>hb', '<cmd>lua require"gitsigns".blame_line{full=true}<CR>')
+      map('n', '<leader>tb', '<cmd>Gitsigns toggle_current_line_blame<CR>')
+      map('n', '<leader>hd', '<cmd>Gitsigns diffthis<CR>')
+      map('n', '<leader>hD', '<cmd>lua require"gitsigns".diffthis("~")<CR>')
+      map('n', '<leader>td', '<cmd>Gitsigns toggle_deleted<CR>')
+  
+      -- Text object
+      map('o', 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+      map('x', 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+    end
+  }
 EOF
 
 
@@ -177,6 +207,38 @@ let g:slime_dont_ask_default = 1
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => nvim tree
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+nnoremap <C-n> :NvimTreeToggle<CR>
+nnoremap <leader>r :NvimTreeRefresh<CR>
+nnoremap <leader>n :NvimTreeFindFile<CR>
+" NvimTreeOpen, NvimTreeClose, NvimTreeFocus, NvimTreeFindFileToggle, and NvimTreeResize are also available if you need them
+
+set termguicolors " this variable must be enabled for colors to be applied properly
+
+" a list of groups can be found at `:help nvim_tree_highlight`
+"highlight NvimTreeFolderIcon guibg=blue
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => nvim tree
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let test#strategy = "neovim"
+let test#python#runner = "pyunit"
+let test#python#pyunit#executable = "bin/pytest --no-cov --no-buffer"
+
+" Hack to get things working, should probably make a custom runner
+function! TSTransform(cmd) abort
+  return a:cmd->substitute('pytest\.', '', '')
+endfunction
+
+let g:test#custom_transformations = {'ts': function('TSTransform')}
+let g:test#transformation = 'ts'
+
+nmap <silent> <leader>t :TestNearest<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Filetype-specific
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " TODO must be a better way for all of this...
@@ -223,6 +285,14 @@ au BufNewFile,BufRead *.snippets
     \ set softtabstop=4 |
     \ set shiftwidth=4 |
     \ set textwidth=87 |
+    \ set expandtab |
+    \ set autoindent |
+    \ set fileformat=unix |
+
+au BufNewFile,BufRead *.ts,*.tsx
+    \ set tabstop=4 |
+    \ set softtabstop=4 |
+    \ set shiftwidth=4 |
     \ set expandtab |
     \ set autoindent |
     \ set fileformat=unix |

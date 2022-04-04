@@ -72,7 +72,7 @@ def write_parameters(snip, text):
         snip.unshift(1)
 endglobal
 
-snippet doc "construct docstring from selection" m
+snippet doc "construct docstring from selection"
 ${VISUAL}
     """$1`!p write_parameters(snip, snip.v.text)`
     """
