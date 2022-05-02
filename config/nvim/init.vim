@@ -96,7 +96,7 @@ lua << EOF
   require('gitsigns').setup{
     on_attach = function(bufnr)
       local function map(mode, lhs, rhs, opts)
-	opts = vim.tbl_extend('force', {noremap = true, silent = true}, opts or {})
+	    opts = vim.tbl_extend('force', {noremap = true, silent = true}, opts or {})
         vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts)
       end
   
@@ -139,23 +139,17 @@ lua << EOF
   require('nvim-tree').setup()
   require('lualine').setup()
 
-  --require('wide-to-long').init()
-  local opts = { noremap=true, silent=true }
-  vim.api.nvim_set_keymap('n', '<leader>tl', '<cmd>lua require"wide-to-long".wide_to_long()<CR>', opts)
-  vim.api.nvim_set_keymap('n', '<leader>tw', '<cmd>lua require"wide-to-long".long_to_wide()<CR>', opts)
-  -- TODO figure out how to setup mappings on buffr for wide-to-long
-  -- {
-  --   on_attach = function(bufnr)
-  --     local function map(mode, lhs, rhs, opts)
-  --       opts = vim.tbl_extend('force', {noremap = true, silent = true}, opts or {})
-  --       vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts)
-  --     end
-  --
-  --     -- Actions
-  --     map('n', '<leader>tl', '<cmd>lua require"wide-to-long".wide_to_long()<CR>')
-  --     map('n', '<leader>tw', '<cmd>lua require"wide-to-long".long_to_wide()<CR>')
-  --   end
-  -- }
+  --vim.opt.runtimepath:append("~/Projects/nvim-plugins/wide-to-long.nvim")
+  require('wide-to-long').setup{
+    attach = function(bufnr, lang)
+      local function map(mode, lhs, rhs, opts)
+	    opts = vim.tbl_extend('force', {noremap = true, silent = true}, opts or {})
+        vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts)
+      end
+      map('n', '<leader>tl', '<cmd>lua require"wide-to-long".wide_to_long()<CR>', opts)
+      map('n', '<leader>tw', '<cmd>lua require"wide-to-long".long_to_wide()<CR>', opts)
+    end,
+  }
 EOF
 
 
@@ -261,7 +255,7 @@ set termguicolors " this variable must be enabled for colors to be applied prope
 "highlight NvimTreeFolderIcon guibg=blue
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => nvim tree
+" => vim-test
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 let test#strategy = "neovim"
