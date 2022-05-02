@@ -5,20 +5,23 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-nvim-lsp'
 
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'lewis6991/gitsigns.nvim'
 
-Plug 'morhetz/gruvbox'
+Plug 'ellisonleao/gruvbox.nvim'
 Plug 'folke/lsp-colors.nvim'
 
 Plug 'scrooloose/nerdcommenter'
-" Plug 'vim-airline/vim-airline'
+Plug 'seibs/wide-to-long.nvim'
 
 Plug 'jpalardy/vim-slime'
 
 Plug 'kyazdani42/nvim-web-devicons' " for file icons
 Plug 'kyazdani42/nvim-tree.lua'
+Plug 'nvim-lualine/lualine.nvim'
 
 Plug 'vim-test/vim-test'
 
@@ -90,7 +93,6 @@ lua << EOF
     }
   end
 
-  require('nvim-tree').setup()
   require('gitsigns').setup{
     on_attach = function(bufnr)
       local function map(mode, lhs, rhs, opts)
@@ -122,6 +124,38 @@ lua << EOF
       map('x', 'ih', ':<C-U>Gitsigns select_hunk<CR>')
     end
   }
+
+  require'nvim-treesitter.configs'.setup {
+    ensure_installed = { 'lua', 'python', 'markdown', 'json', 'yaml', 'vim' },
+    sync_install = false,
+    ignore_install = {},
+    highlight = {
+      enable = true,
+      disable = {},
+      additional_vim_regex_highlighting = false,
+    },
+  }
+
+  require('nvim-tree').setup()
+  require('lualine').setup()
+
+  --require('wide-to-long').init()
+  local opts = { noremap=true, silent=true }
+  vim.api.nvim_set_keymap('n', '<leader>tl', '<cmd>lua require"wide-to-long".wide_to_long()<CR>', opts)
+  vim.api.nvim_set_keymap('n', '<leader>tw', '<cmd>lua require"wide-to-long".long_to_wide()<CR>', opts)
+  -- TODO figure out how to setup mappings on buffr for wide-to-long
+  -- {
+  --   on_attach = function(bufnr)
+  --     local function map(mode, lhs, rhs, opts)
+  --       opts = vim.tbl_extend('force', {noremap = true, silent = true}, opts or {})
+  --       vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts)
+  --     end
+  --
+  --     -- Actions
+  --     map('n', '<leader>tl', '<cmd>lua require"wide-to-long".wide_to_long()<CR>')
+  --     map('n', '<leader>tw', '<cmd>lua require"wide-to-long".long_to_wide()<CR>')
+  --   end
+  -- }
 EOF
 
 
@@ -135,9 +169,8 @@ set encoding=utf-8
 
 " Colorscheme
 set t_Co=256
-colorscheme gruvbox
 set background=dark
-let g:airline_theme='gruvbox'
+colorscheme gruvbox
 
 " Remap ESC to jk
 inoremap jk <ESC>
@@ -182,6 +215,13 @@ nnoremap <C-p> <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+set autoindent
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
