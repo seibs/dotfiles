@@ -140,14 +140,11 @@ lua << EOF
   require('lualine').setup()
 
   --vim.opt.runtimepath:append("~/Projects/nvim-plugins/wide-to-long.nvim")
-  require('wide-to-long').setup{
+  local wtl = require('wide-to-long')
+  wtl.setup{
     attach = function(bufnr, lang)
-      local function map(mode, lhs, rhs, opts)
-	    opts = vim.tbl_extend('force', {noremap = true, silent = true}, opts or {})
-        vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts)
-      end
-      map('n', '<leader>tl', '<cmd>lua require"wide-to-long".wide_to_long()<CR>', opts)
-      map('n', '<leader>tw', '<cmd>lua require"wide-to-long".long_to_wide()<CR>', opts)
+      vim.keymap.set('n', '<leader>tl', wtl.wide_to_long, { noremap=true, silent=true })
+      vim.keymap.set('n', '<leader>tw', wtl.long_to_wide, { noremap=true, silent=true })
     end,
   }
 EOF
