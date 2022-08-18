@@ -82,7 +82,7 @@ lua << EOF
   
   -- Use a loop to conveniently call 'setup' on multiple servers and
   -- map buffer local keybindings when the language server attaches
-  local servers = { 'pyright' }
+  local servers = { 'pyright', 'tsserver' }
   for _, lsp in pairs(servers) do
     require('lspconfig')[lsp].setup {
       on_attach = on_attach,
@@ -92,6 +92,14 @@ lua << EOF
       }
     }
   end
+  require('lspconfig').tsserver.setup {
+    on_attach = on_attach,
+    flags = {
+      -- This will be the default in neovim 0.7+
+      debounce_text_changes = 150,
+    },
+    cmd = { "npm", "exec", "--package=typescript-language-server", "--", "typescript-language-server", "--stdio" }
+  }
 
   require('gitsigns').setup{
     on_attach = function(bufnr)
@@ -126,13 +134,13 @@ lua << EOF
   }
 
   require'nvim-treesitter.configs'.setup {
-    ensure_installed = { 'lua', 'python', 'markdown', 'json', 'yaml', 'vim' },
+    ensure_installed = { 'lua', 'python', 'markdown', 'json', 'yaml', 'vim', 'org' },
     sync_install = false,
     ignore_install = {},
     highlight = {
       enable = true,
-      disable = {},
-      additional_vim_regex_highlighting = false,
+      disable = {'org'}, -- Remove this to use TS highlighter for some of the highlights (Experimental)
+      additional_vim_regex_highlighting = {'org'}, -- Required since TS highlighter doesn't support all syntax features (conceal)
     },
   }
 
@@ -147,6 +155,16 @@ lua << EOF
       vim.keymap.set('n', '<leader>tw', wtl.long_to_wide, { noremap=true, silent=true })
     end,
   }
+
+
+  vim.opt.runtimepath:append("~/Projects/nvim-plugins/orgmode")
+  require('orgmode').setup_ts_grammar()
+
+  require('orgmode').setup({
+    org_agenda_files = {'~/org/*'},
+    org_default_notes_file = '~/org/refile.org',
+  })
+
 EOF
 
 
@@ -321,9 +339,9 @@ au BufNewFile,BufRead *.snippets
     \ set fileformat=unix |
 
 au BufNewFile,BufRead *.ts,*.tsx
-    \ set tabstop=4 |
-    \ set softtabstop=4 |
-    \ set shiftwidth=4 |
+    \ set tabstop=2 |
+    \ set softtabstop=2 |
+    \ set shiftwidth=2 |
     \ set expandtab |
     \ set autoindent |
     \ set fileformat=unix |

@@ -12,8 +12,8 @@
         pyright
         ripgrep
         tmux
-	"nodePackages.typescript"
-	"nodePackages.typescript-language-server"
+        rustup
+        git
       ];
       pathsToLink = [ "/share" "/bin" ];
     };
