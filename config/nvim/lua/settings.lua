@@ -17,10 +17,9 @@ vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.autoindent = true
-vim.opt.fileformat = 'unix'  -- TODO
+vim.opt.fileformat = 'unix'  -- TODO?
 vim.opt.wrap = false
 vim.opt.hlsearch = true  -- Highlight search, turn off of <leader><cr>
 
--- set completeopt=menu,menuone,noselect
-
-
+-- Set leader to ,
+vim.g.mapleader = ","

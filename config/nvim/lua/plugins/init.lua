@@ -53,6 +53,7 @@ return require('packer').startup(function(use)
     use({
         'glepnir/lspsaga.nvim',
         branch = 'main',
+        -- TODO Prevent write on finder open?
         config = function() require('lspsaga').init_lsp_saga({
                 finder_action_keys = {
                     open = { "o", "<CR>" },
@@ -98,12 +99,14 @@ return require('packer').startup(function(use)
     use({
         'lewis6991/gitsigns.nvim',
         config = function() require('plugins.gitsigns') end,
+        after = 'which-keys.nvim',
     })
 
     use({
         'numToStr/Comment.nvim',
         config = function() require('plugins.comment') end,
         requires = { 'JoosepAlviste/nvim-ts-context-commentstring' },
+        after = 'which-keys.nvim',
     })
     use({ 'vim-scripts/indentpython.vim' })
 
@@ -137,7 +140,12 @@ return require('packer').startup(function(use)
             vim.g.slime_dont_ask_default = 1
         end
     })
-    use ({ 'vim-test/vim-test' })
+    use({ 'vim-test/vim-test' })
+
+    use({
+        "folke/which-key.nvim",
+        config = function() require("which-key").setup({}) end,
+    })
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
