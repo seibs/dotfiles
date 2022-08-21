@@ -14,6 +14,11 @@
         tmux
         rustup
         git
+        "nixpkgs.sumneko-lua-language-server"
+        mypy
+        black
+        lazygit
+        fd
       ];
       pathsToLink = [ "/share" "/bin" ];
     };
