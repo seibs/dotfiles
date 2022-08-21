@@ -151,10 +151,12 @@ M.register = function(name, bufnr)
     end
 
     -- TODO Replace w/ something that will fallback to keymap.set when which-keys isn't loaded
-    local wk = require('which-key')
-    for mode, mappings in pairs(mode_map) do
-        local opts = { mode = mode, buffer = bufnr }
-        wk.register(mappings, opts)
+    local ok, wk = pcall(require, 'which-key')
+    if ok then
+        for mode, mappings in pairs(mode_map) do
+            local opts = { mode = mode, buffer = bufnr }
+            wk.register(mappings, opts)
+        end
     end
 end
 

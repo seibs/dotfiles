@@ -14,6 +14,11 @@ return require('packer').startup(function(use)
     use({ 'luisiacc/gruvbox-baby' })
     use({ 'folke/lsp-colors.nvim' })
 
+    use({
+        "folke/which-key.nvim",
+        config = function() require("which-key").setup({}) end,
+    })
+
     -- TODO treesitter/orgmode configuration is a mess
     -- the ordering must be:
     -- - load TS
@@ -146,11 +151,6 @@ return require('packer').startup(function(use)
         end
     })
     use({ 'vim-test/vim-test' })
-
-    use({
-        "folke/which-key.nvim",
-        config = function() require("which-key").setup({}) end,
-    })
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
