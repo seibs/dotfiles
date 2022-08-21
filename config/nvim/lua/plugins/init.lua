@@ -60,7 +60,7 @@ return require('packer').startup(function(use)
                 },
             })
         end,
-        after = 'which-keys.nvim',
+        after = 'which-key.nvim',
     })
 
     use({ 'ellisonleao/gruvbox.nvim' })
@@ -69,7 +69,7 @@ return require('packer').startup(function(use)
     use({
         'seibs/wide-to-long.nvim',
         config = function() require('plugins.wide-to-long') end,
-        after = 'which-keys.nvim',
+        after = 'which-key.nvim',
     })
 
     use({
@@ -81,7 +81,7 @@ return require('packer').startup(function(use)
         'nvim-telescope/telescope.nvim', tag = '0.1.0',
         requires = { { 'nvim-lua/plenary.nvim' } },
         config = function() require('plugins.telescope') end,
-        after = 'which-keys.nvim',
+        after = 'which-key.nvim',
     })
     use({
         'nvim-telescope/telescope-file-browser.nvim',
@@ -103,14 +103,14 @@ return require('packer').startup(function(use)
     use({
         'lewis6991/gitsigns.nvim',
         config = function() require('plugins.gitsigns') end,
-        after = 'which-keys.nvim',
+        after = 'which-key.nvim',
     })
 
     use({
         'numToStr/Comment.nvim',
         config = function() require('plugins.comment') end,
         requires = { 'JoosepAlviste/nvim-ts-context-commentstring' },
-        after = 'which-keys.nvim',
+        after = 'which-key.nvim',
     })
     use({ 'vim-scripts/indentpython.vim' })
 
@@ -130,7 +130,7 @@ return require('packer').startup(function(use)
         "akinsho/toggleterm.nvim",
         tag = 'v2.*',
         config = function() require("plugins.toggleterm") end,
-        after = 'which-keys.nvim',
+        after = 'which-key.nvim',
     })
 
     use({

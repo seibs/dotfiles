@@ -119,10 +119,10 @@ KEYMAPS['lsp'] = {
 
 KEYMAPS['telescope'] = {
     n = {
-        ['<C-p>'] = { require('telescope.builtin').find_files, 'Find files' },
-        ['<leader>fg'] = { require('telescope.builtin').live_grep, 'Telescope grep' },
-        ['<leader>fb'] = { require('telescope.builtin').buffers, 'Telescope buffers' },
-        ['<leader>fh'] = { require('telescope.builtin').help_tags, 'Telescope help tags' },
+        ['<C-p>'] = { function() require('telescope.builtin').find_files() end, 'Find files' },
+        ['<leader>fg'] = { function() require('telescope.builtin').live_grep() end, 'Telescope grep' },
+        ['<leader>fb'] = { function() require('telescope.builtin').buffers() end, 'Telescope buffers' },
+        ['<leader>fh'] = { function() require('telescope.builtin').help_tags() end, 'Telescope help tags' },
         ['<C-n>'] = {
             function()
                 require('telescope').extensions.file_browser.file_browser({
