@@ -60,6 +60,7 @@ return require('packer').startup(function(use)
                 },
             })
         end,
+        after = 'which-keys.nvim',
     })
 
     use({ 'ellisonleao/gruvbox.nvim' })
@@ -68,6 +69,7 @@ return require('packer').startup(function(use)
     use({
         'seibs/wide-to-long.nvim',
         config = function() require('plugins.wide-to-long') end,
+        after = 'which-keys.nvim',
     })
 
     use({
@@ -79,6 +81,7 @@ return require('packer').startup(function(use)
         'nvim-telescope/telescope.nvim', tag = '0.1.0',
         requires = { { 'nvim-lua/plenary.nvim' } },
         config = function() require('plugins.telescope') end,
+        after = 'which-keys.nvim',
     })
     use({
         'nvim-telescope/telescope-file-browser.nvim',
@@ -126,7 +129,8 @@ return require('packer').startup(function(use)
     use({
         "akinsho/toggleterm.nvim",
         tag = 'v2.*',
-        config = function() require("plugins.toggleterm") end
+        config = function() require("plugins.toggleterm") end,
+        after = 'which-keys.nvim',
     })
 
     use({

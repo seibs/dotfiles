@@ -46,7 +46,7 @@ KEYMAPS.gitsigns = {
             ['S'] = { ':Gitsigns stage_buffer<CR>', 'Stage buffer' },
             ['R'] = { ':Gitsigns reset_buffer<CR>', 'Reset buffer' },
             ['b'] = { function() require('gitsigns').blame_line({ full = true }) end, 'Blame hunk' },
-            ['d'] = { require('gitsigns').diffthis, 'Diff this' },
+            ['d'] = { function() require('gitsigns').diffthis() end, 'Diff this' },
             ['D'] = { function() require('gitsigns').diffthis('~') end, 'Diff this vs. HEAD' },
         },
         ['<leader>tb'] = { ':Gitsigns toggle_current_line_blame', 'Toggle line blame' },
