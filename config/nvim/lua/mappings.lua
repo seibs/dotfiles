@@ -10,8 +10,11 @@ KEYMAPS.general = {
         ['<C-h>'] = { '<C-W>h', 'Move split left' },
         ['<C-l>'] = { '<C-W>l', 'Move split right' },
         ['<leader><cr>'] = { '<cmd>noh<cr>', 'Hide highlights' },
-        ['<leader><ev>'] = { ':vsplit $MYVIMRC<cr>', 'Edit vimrc' },
-        ['<leader><sv>'] = { ':source $MYVIMRC<cr>', 'Source vimrc' },
+        ['<leader>ev'] = { ':vsplit $MYVIMRC<cr>', 'Edit vimrc' },
+        ['<leader>sv'] = { ':source $MYVIMRC<cr>', 'Source vimrc' },
+        ['<Tab>'] = { ':bn<cr>', 'Next buffer' },
+        ['<S-Tab>'] = { ':bp<cr>', 'Next buffer' },
+        ['<leader>b'] = { ':ls<cr>:b<space>', 'Jump to buffer' },
     },
     v = {
 
@@ -23,14 +26,14 @@ KEYMAPS.Comment = {
         ['<C-_>'] = {
             '<Plug>(comment_toggle_blockwise_current)',
             'Comment line',
-            expr = true,
+            opts = { expr = true },
         },
     },
     v = {
         ['<C-_>'] = {
             '<Plug>(comment_toggle_linewise_visual)',
             'Comment line',
-            expr = true,
+            opts = { expr = true },
         },
     },
 }
@@ -58,7 +61,7 @@ KEYMAPS.gitsigns = {
                 return '<Ignore>'
             end,
             'Next hunk',
-            expr = true,
+            opts = { expr = true },
         },
         ['[c'] = {
             function()
@@ -67,7 +70,7 @@ KEYMAPS.gitsigns = {
                 return '<Ignore>'
             end,
             'Prev hunk',
-            expr = true,
+            opts = { expr = true },
         }
     },
     v = {
@@ -139,6 +142,35 @@ KEYMAPS['telescope'] = {
 
 local M = {}
 
+local DEFAULT_OPTS = {
+    buffer = nil,
+    desc = nil,
+    silent = true,
+    noremap = true,
+    nowait = false,
+}
+
+local function parse_mappings(mappings, group_names, entry, opts, prefix)
+    for key, value in pairs(entry) do
+        if #value == 0 then
+            parse_mappings(mappings, group_names, value, opts, prefix .. key)
+        else
+            if key ~= 'name' then
+                local mapping_opts = vim.tbl_deep_extend("force", opts, value.opts or {})
+                mapping_opts.desc = value[2]
+                local mapping = {
+                    lhs = prefix .. key,
+                    rhs = value[1],
+                    opts = mapping_opts,
+                }
+                table.insert(mappings, mapping)
+            else
+                group_names[prefix] = { name = value }
+            end
+        end
+    end
+end
+
 M.register = function(name, bufnr)
     local mode_map = KEYMAPS[name]
     if mode_map == nil then
@@ -150,13 +182,21 @@ M.register = function(name, bufnr)
         return
     end
 
-    -- TODO Replace w/ something that will fallback to keymap.set when which-keys isn't loaded
-    local ok, wk = pcall(require, 'which-key')
-    if ok then
-        for mode, mappings in pairs(mode_map) do
-            local opts = { mode = mode, buffer = bufnr }
-            wk.register(mappings, opts)
+    for mode, mappings in pairs(mode_map) do
+        local opts = vim.tbl_deep_extend('force', DEFAULT_OPTS, { buffer = bufnr })
+        local parsed_mappings = {}
+        local parsed_group_names = {}
+        parse_mappings(parsed_mappings, parsed_group_names, mappings, opts, '')
+
+        for _, parsed_mapping in pairs(parsed_mappings) do
+            vim.keymap.set(mode, parsed_mapping.lhs, parsed_mapping.rhs, parsed_mapping.opts)
         end
+
+        local wk_exists, wk = pcall(require, 'which-key')
+        if wk_exists then
+            wk.register(parsed_group_names, { mode = mode })
+        end
+
     end
 end
 
