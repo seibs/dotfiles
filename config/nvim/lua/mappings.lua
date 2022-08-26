@@ -93,14 +93,14 @@ KEYMAPS.toggleterm = {
 
 KEYMAPS['wide-to-long'] = {
     n = {
-        ['<leader>tl'] = { function() require('wide-to-long').wide_to_long() end, 'Wide to long' },
-        ['<leader>tw'] = { function() require('wide-to-long').long_to_wide() end, 'Long to wide' },
+        ['<leader>rl'] = { function() require('wide-to-long').wide_to_long() end, 'Wide to long' },
+        ['<leader>rw'] = { function() require('wide-to-long').long_to_wide() end, 'Long to wide' },
     }
 }
 
 KEYMAPS['lsp'] = {
     i = {
-        ['<C-k>'] = { '<cmd>Lspsaga signature_help', 'Signature help' },
+        ['<C-k>'] = { '<cmd>Lspsaga signature_help<cr>', 'Signature help' },
     },
     v = {
         ['<leader>ca'] = { '<cmd><C-U>Lspsaga range_code_action<cr>', 'Code action' },

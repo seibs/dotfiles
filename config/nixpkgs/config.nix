@@ -19,6 +19,7 @@
         black
         lazygit
         fd
+        exa
       ];
       pathsToLink = [ "/share" "/bin" ];
     };
