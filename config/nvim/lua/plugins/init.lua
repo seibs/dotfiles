@@ -152,6 +152,33 @@ return require('packer').startup(function(use)
     })
     use({ 'vim-test/vim-test' })
 
+    use({
+        'Pocco81/true-zen.nvim',
+        config = function()
+            require('true-zen').setup({
+                integrations = {
+                    tmux = true,
+                    lualine = true,
+                }
+            })
+            require('mappings').register('true-zen')
+        end,
+    })
+    use({
+        "folke/twilight.nvim",
+        config = function()
+            require("twilight").setup({})
+            require('mappings').register('twilight')
+        end
+    })
+    use({
+        'preservim/vim-pencil',
+        config = function()
+            vim.g['pencil#wrapModeDefault'] = 'soft'
+            require('mappings').register('pencil')
+        end
+    })
+
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if packer_bootstrap then

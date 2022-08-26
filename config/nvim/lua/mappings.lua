@@ -2,7 +2,6 @@ local KEYMAPS = {}
 KEYMAPS.general = {
     i = {
         ['jk'] = { '<ESC>', 'Exit to normal mode' },
-
     },
     n = {
         ['<C-j>'] = { '<C-W>j', 'Move split down' },
@@ -52,8 +51,8 @@ KEYMAPS.gitsigns = {
             ['d'] = { function() require('gitsigns').diffthis() end, 'Diff this' },
             ['D'] = { function() require('gitsigns').diffthis('~') end, 'Diff this vs. HEAD' },
         },
-        ['<leader>tb'] = { ':Gitsigns toggle_current_line_blame', 'Toggle line blame' },
-        ['<leader>td'] = { ':Gitsigns toggle_deleted', 'Toggle deleted' },
+        ['<leader>tb'] = { ':Gitsigns toggle_current_line_blame<cr>', 'Toggle line blame' },
+        ['<leader>td'] = { ':Gitsigns toggle_deleted<cr>', 'Toggle deleted' },
         [']c'] = {
             function()
                 if vim.wo.diff then return ']c' end
@@ -139,6 +138,27 @@ KEYMAPS['telescope'] = {
     }
 }
 
+KEYMAPS['true-zen'] = {
+    n = {
+        ['<leader>z'] = {
+            name = 'TrueZen+Focus',
+            ['n'] = { ':TZNarrow<cr>', 'Narrow' },
+            ['f'] = { ':TZFocus<cr>', 'Focus' },
+            ['m'] = { ':TZMinimalist<cr>', 'Minimalist' },
+            ['a'] = { ':TZAtaraxis<cr>', 'Ataraxis' },
+        },
+    },
+    v = {
+        ['<leader>zn'] = { ":'<,'>TZNarrow<cr>", 'TrueZen Narrow' },
+    }
+}
+
+KEYMAPS['twilight'] = {
+    n = { ['<leader>zt'] = { ':Twilight<cr>', 'Twilight' } }
+}
+KEYMAPS['pencil'] = {
+    n = { ['<leader>zp'] = { ':TogglePencil<cr>', 'Pencil' } }
+}
 
 local M = {}
 
