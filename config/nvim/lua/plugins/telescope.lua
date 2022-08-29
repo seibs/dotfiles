@@ -17,6 +17,10 @@ telescope.setup({
             initial_mode = 'normal',
             -- TODO collapse_dirs is broken, attempts to set cwd to a file
             -- collapse_dirs = true,
+            grouped = true,
+            hidden = true,
+            cwd = '%:p:h',
+            path = '%:p:h',
         },
     },
 })
