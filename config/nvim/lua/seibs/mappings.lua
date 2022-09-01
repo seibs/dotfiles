@@ -160,6 +160,22 @@ KEYMAPS['pencil'] = {
     n = { ['<leader>zp'] = { ':TogglePencil<cr>', 'Pencil' } }
 }
 
+KEYMAPS['nvim-dap'] = {
+    n = {
+        ['<leader>d'] = {
+            name = 'debug',
+            ['b'] = { ':lua require("dap").toggle_breakpoint()<cr>', 'Set Breakpoint' },
+            ['c'] = { ':lua require("dap").continue()<cr>', 'Continue' },
+            -- ['B'] = { '', 'Set Conditional Breakpoint' },
+            -- ['']
+            ['o'] = { ':lua require("dapui").toggle()<cr>', 'Toggle UI' },
+        },
+        ['<F2>'] = { ':lua require("dap").step_over()<cr>', 'Step Over' },
+        ['<F3>'] = { ':lua require("dap").step_into()<cr>', 'Step Into' },
+        ['<F4>'] = { ':lua require("dap").step_out()<cr>', 'Step Out' },
+    },
+}
+
 local M = {}
 
 local DEFAULT_OPTS = {

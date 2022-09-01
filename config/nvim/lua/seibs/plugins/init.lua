@@ -188,6 +188,20 @@ return require('packer').startup(function(use)
     })
 
     use({ 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' })
+    use({
+        'mfussenegger/nvim-dap',
+        config = function() require('seibs.plugins.nvim-dap') end,
+    })
+    use({
+        'rcarriga/nvim-dap-ui',
+        requires = { 'mfussenegger/nvim-dap' },
+        config = function() require('seibs.plugins.nvim-dap-ui') end,
+    })
+    use({
+        'theHamsta/nvim-dap-virtual-text',
+        after = { 'nvim-treesitter' },
+        config = function() require("nvim-dap-virtual-text").setup({}) end,
+    })
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
