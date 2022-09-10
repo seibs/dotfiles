@@ -32,4 +32,4 @@ telescope.setup({
 })
 
 telescope.load_extension("file_browser")
-require('mappings').register('telescope')
+require('seibs.mappings').register('telescope')

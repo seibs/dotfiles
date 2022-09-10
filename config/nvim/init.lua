@@ -1,3 +1,3 @@
-require("settings")
-require("plugins")
-require("mappings").register('general')
+require("seibs.settings")
+require("seibs.plugins")
+require("seibs.mappings").register("general")

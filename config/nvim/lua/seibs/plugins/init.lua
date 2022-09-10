@@ -1,7 +1,7 @@
 local fn = vim.fn
 local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
-    packer_bootstrap = fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim',
+    _PACKER_BOOTSTRAP = fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim',
         install_path })
     vim.cmd [[packadd packer.nvim]]
 end
@@ -30,12 +30,12 @@ return require('packer').startup(function(use)
     use({
         'nvim-treesitter/nvim-treesitter',
         run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
-        -- config = function() require('plugins.nvim-treesitter') end,
+        -- config = function() require('seibs.plugins.nvim-treesitter') end,
     })
     use({
         'nvim-orgmode/orgmode',
-        -- config = function() require('plugins.orgmode') end,
-        config = function() require('plugins.nvim-treesitter') end,
+        -- config = function() require('seibs.plugins.orgmode') end,
+        config = function() require('seibs.plugins.nvim-treesitter') end,
         after = 'nvim-treesitter',
     })
 
@@ -49,7 +49,7 @@ return require('packer').startup(function(use)
 
     use({
         'hrsh7th/nvim-cmp',
-        config = function() require('plugins.nvim-cmp') end,
+        config = function() require('seibs.plugins.nvim-cmp') end,
         requires = {
             'hrsh7th/cmp-nvim-lsp',
             'hrsh7th/cmp-buffer',
@@ -62,13 +62,13 @@ return require('packer').startup(function(use)
 
     use({
         'L3MON4D3/LuaSnip',
-        config = function() require('plugins.lua-snip') end,
+        config = function() require('seibs.plugins.lua-snip') end,
     })
     use({ 'rafamadriz/friendly-snippets' })
 
     use({
         'neovim/nvim-lspconfig',
-        config = function() require('plugins.lsp') end,
+        config = function() require('seibs.plugins.lsp') end,
     })
 
     use({
@@ -94,7 +94,7 @@ return require('packer').startup(function(use)
 
     use({
         'seibs/wide-to-long.nvim',
-        config = function() require('plugins.wide-to-long') end,
+        config = function() require('seibs.plugins.wide-to-long') end,
         after = { 'which-key.nvim', 'nvim-treesitter', 'orgmode' },
     })
 
@@ -106,7 +106,7 @@ return require('packer').startup(function(use)
     use({
         'nvim-telescope/telescope.nvim', tag = '0.1.0',
         requires = { { 'nvim-lua/plenary.nvim' } },
-        config = function() require('plugins.telescope') end,
+        config = function() require('seibs.plugins.telescope') end,
         after = 'which-key.nvim',
     })
     use({
@@ -116,13 +116,13 @@ return require('packer').startup(function(use)
 
     use({
         'lewis6991/gitsigns.nvim',
-        config = function() require('plugins.gitsigns') end,
+        config = function() require('seibs.plugins.gitsigns') end,
         after = 'which-key.nvim',
     })
 
     use({
         'numToStr/Comment.nvim',
-        config = function() require('plugins.comment') end,
+        config = function() require('seibs.plugins.comment') end,
         after = { 'which-key.nvim', 'nvim-ts-context-commentstring' },
     })
     use({ 'vim-scripts/indentpython.vim' })
@@ -130,7 +130,7 @@ return require('packer').startup(function(use)
     use({
         'jose-elias-alvarez/null-ls.nvim',
         requires = { { 'nvim-lua/plenary.nvim' } },
-        config = function() require('plugins.null-ls') end,
+        config = function() require('seibs.plugins.null-ls') end,
     })
 
     -- TODO try this again some time. initial "extract variable" testing was buggy
@@ -142,7 +142,7 @@ return require('packer').startup(function(use)
     use({
         "akinsho/toggleterm.nvim",
         tag = 'v2.*',
-        config = function() require("plugins.toggleterm") end,
+        config = function() require("seibs.plugins.toggleterm") end,
         after = 'which-key.nvim',
     })
 
@@ -169,21 +169,21 @@ return require('packer').startup(function(use)
                     lualine = true,
                 }
             })
-            require('mappings').register('true-zen')
+            require('seibs.mappings').register('true-zen')
         end,
     })
     use({
         "folke/twilight.nvim",
         config = function()
             require("twilight").setup({})
-            require('mappings').register('twilight')
+            require('seibs.mappings').register('twilight')
         end
     })
     use({
         'preservim/vim-pencil',
         config = function()
             vim.g['pencil#wrapModeDefault'] = 'soft'
-            require('mappings').register('pencil')
+            require('seibs.mappings').register('pencil')
         end
     })
 
@@ -191,7 +191,7 @@ return require('packer').startup(function(use)
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
-    if packer_bootstrap then
+    if _PACKER_BOOTSTRAP then
         require('packer').sync()
     end
 end)

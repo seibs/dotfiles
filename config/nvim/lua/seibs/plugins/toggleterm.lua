@@ -14,6 +14,6 @@ function _lazygit_toggle()
     lazygit:toggle()
 end
 
-require('mappings').register('toggleterm')
+require('seibs.mappings').register('toggleterm')
 
 -- TODO custom terminal for ipython?
