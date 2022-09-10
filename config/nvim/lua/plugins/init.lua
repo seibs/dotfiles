@@ -79,9 +79,17 @@ return require('packer').startup(function(use)
                 finder_action_keys = {
                     open = { "o", "<CR>" },
                 },
+                code_action_lightbulb = {
+                    enable = false,
+                    virtual_text = false,
+                },
             })
         end,
         after = 'which-key.nvim',
+    })
+    use({
+        "j-hui/fidget.nvim",
+        config = function() require('fidget').setup({}) end,
     })
 
     use({
@@ -178,6 +186,8 @@ return require('packer').startup(function(use)
             require('mappings').register('pencil')
         end
     })
+
+    use({ 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' })
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins

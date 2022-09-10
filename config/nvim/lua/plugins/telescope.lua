@@ -12,7 +12,13 @@ telescope.setup({
     extensions = {
         file_browser = {
             -- theme = "ivy",
-            theme = "dropdown",
+            -- theme = "dropdown",
+            sorting_strategy = "ascending",
+            scroll_strategy = "cycle",
+            layout_config = {
+                prompt_position = "top",
+            },
+
             -- hijack_netrw = true,  -- TODO breaks gx to follow links
             initial_mode = 'normal',
             -- TODO collapse_dirs is broken, attempts to set cwd to a file
