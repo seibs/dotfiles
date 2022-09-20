@@ -99,7 +99,7 @@ KEYMAPS['wide-to-long'] = {
 
 KEYMAPS['lsp'] = {
     i = {
-        ['<C-k>'] = { '<cmd>Lspsaga signature_help<cr>', 'Signature help' },
+        ['<C-k>'] = { vim.lsp.buf.signature_help, 'Signature help' },
     },
     v = {
         ['<leader>ca'] = { '<cmd><C-U>Lspsaga range_code_action<cr>', 'Code action' },

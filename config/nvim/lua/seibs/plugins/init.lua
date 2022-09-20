@@ -91,6 +91,10 @@ return require('packer').startup(function(use)
         "j-hui/fidget.nvim",
         config = function() require('fidget').setup({}) end,
     })
+    use({
+        'lvimuser/lsp-inlayhints.nvim',
+        config = function() require('lsp-inlayhints').setup() end,
+    })
 
     use({
         'seibs/wide-to-long.nvim',

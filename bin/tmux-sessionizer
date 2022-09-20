@@ -4,7 +4,7 @@
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(fd --exact-depth 1 --type d . ~/clones ~/Projects ~/ 2>/dev/null | fzf)
+    selected=$(fd --exact-depth 1 --type d . ~/clones ~/Projects ~/ 2>/dev/null | fzf --height=40% --layout=reverse --border)
 fi
 
 if [[ -z $selected ]]; then
