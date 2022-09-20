@@ -95,6 +95,13 @@ return require('packer').startup(function(use)
         'lvimuser/lsp-inlayhints.nvim',
         config = function() require('lsp-inlayhints').setup() end,
     })
+    use({
+        'simrat39/symbols-outline.nvim',
+        config = function()
+            require('symbols-outline').setup()
+            require('seibs.mappings').register('symbols-outline')
+        end,
+    })
 
     use({
         'seibs/wide-to-long.nvim',
@@ -205,6 +212,15 @@ return require('packer').startup(function(use)
         'theHamsta/nvim-dap-virtual-text',
         after = { 'nvim-treesitter' },
         config = function() require("nvim-dap-virtual-text").setup({}) end,
+    })
+
+    use({
+        'ThePrimeagen/harpoon',
+        requires = { 'nvim-lua/plenary.nvim' },
+        config = function()
+            require('harpoon').setup({})
+            require('seibs.mappings').register('harpoon')
+        end,
     })
 
     -- Automatically set up your configuration after cloning packer.nvim

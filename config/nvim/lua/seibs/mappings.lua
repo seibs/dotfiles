@@ -176,6 +176,27 @@ KEYMAPS['nvim-dap'] = {
     },
 }
 
+KEYMAPS['symbols-outline'] = {
+    n = {
+        ['<leader>tt'] = { '<cmd>SymbolsOutline<cr>', 'Toggle Tag Tree' },
+    }
+}
+
+KEYMAPS['harpoon'] = {
+    n = {
+        ['<leader>'] = {
+            -- TODO change to one keypress?
+            ['5'] = { function() require('harpoon.ui').nav_file(1) end, 'Harpoon: File 1' },
+            ['4'] = { function() require('harpoon.ui').nav_file(2) end, 'Harpoon: File 2' },
+            ['3'] = { function() require('harpoon.ui').nav_file(3) end, 'Harpoon: File 3' },
+            ['2'] = { function() require('harpoon.ui').nav_file(4) end, 'Harpoon: File 4' },
+            ['1'] = { function() require('harpoon.ui').nav_file(5) end, 'Harpoon: File 5' },
+            ['th'] = { require('harpoon.ui').toggle_quick_menu, 'Toggle Harpoon' },
+            ['a'] = { require('harpoon.mark').add_file, 'Add to Harpoon' },
+        }
+    }
+}
+
 local M = {}
 
 local DEFAULT_OPTS = {
