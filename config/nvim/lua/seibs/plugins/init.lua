@@ -12,6 +12,22 @@ return require('packer').startup(function(use)
     use({ 'kyazdani42/nvim-web-devicons' })
     use({ 'ellisonleao/gruvbox.nvim' })
     use({ 'luisiacc/gruvbox-baby' })
+    use({
+        'catppuccin/nvim',
+        as = 'catppuccin',
+        config = function()
+            require('catppuccin').setup({
+                integrations = {
+                    cmp = true,
+                    gitsigns = true,
+                    lsp_saga = true,
+                    treesitter = true,
+                    telescope = true,
+                    which_key = true,
+                }
+            })
+        end,
+    })
     use({ 'folke/lsp-colors.nvim' })
 
     use({
@@ -105,13 +121,14 @@ return require('packer').startup(function(use)
 
     use({
         'seibs/wide-to-long.nvim',
+        -- '~/Projects/nvim-plugins/wide-to-long.nvim',
         config = function() require('seibs.plugins.wide-to-long') end,
         after = { 'which-key.nvim', 'nvim-treesitter', 'orgmode' },
     })
 
     use({
         'nvim-lualine/lualine.nvim',
-        config = function() require('lualine').setup({ options = { globalstatus = true } }) end,
+        config = function() require('lualine').setup({ options = { theme = 'catppuccin', globalstatus = true } }) end,
     })
 
     use({
@@ -221,6 +238,12 @@ return require('packer').startup(function(use)
             require('harpoon').setup({})
             require('seibs.mappings').register('harpoon')
         end,
+    })
+
+    use({
+        'scalameta/nvim-metals',
+        requires = { "nvim-lua/plenary.nvim" },
+        config = function() require("seibs.plugins.metals") end,
     })
 
     -- Automatically set up your configuration after cloning packer.nvim

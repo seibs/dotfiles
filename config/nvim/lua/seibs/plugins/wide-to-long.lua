@@ -3,6 +3,6 @@ local PLUGIN_NAME = 'wide-to-long'
 local wtl = require(PLUGIN_NAME)
 wtl.setup({
     attach = function(bufnr, lang)
-        require('mappings').register(PLUGIN_NAME, bufnr)
+        require('seibs.mappings').register(PLUGIN_NAME, bufnr)
     end,
 })

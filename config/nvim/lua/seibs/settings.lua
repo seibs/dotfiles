@@ -23,3 +23,6 @@ vim.opt.hlsearch = true  -- Highlight search, turn off of <leader><cr>
 
 -- Set leader to ,
 vim.g.mapleader = ","
+
+vim.opt.scrolloff = 4  -- don't let cursor get to the bottom
+vim.opt.colorcolumn = "88"  -- add default soft line length limit
