@@ -105,10 +105,11 @@ KEYMAPS['lsp'] = {
         ['<leader>ca'] = { '<cmd><C-U>Lspsaga range_code_action<cr>', 'Code action' },
     },
     n = {
+        ['<C-k>'] = { vim.lsp.buf.signature_help, 'Signature help' },
         ['gd'] = { vim.lsp.buf.definition, 'Go to definition' },
         ['<space>D'] = { vim.lsp.buf.type_definition, 'Go to type def' },
-        ['<space>f'] = { vim.lsp.buf.formatting, 'Format file' },
-        ['K'] = { '<cmd>Lspsaga hover_doc<cr>', 'Hover doc' },
+        ['<space>f'] = { vim.lsp.buf.format, 'Format file' },
+        ['K'] = { vim.lsp.buf.hover, 'Hover doc' },
         ['gD'] = { '<cmd>Lspsaga lsp_finder<cr>', 'LSP finder' },
         ['gp'] = { '<cmd>Lspsaga preview_definition<cr>', 'Preview definition' },
         ['gr'] = { '<cmd>Lspsaga rename<cr>', 'Rename' },

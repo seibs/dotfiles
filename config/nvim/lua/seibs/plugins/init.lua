@@ -28,7 +28,7 @@ return require('packer').startup(function(use)
             })
         end,
     })
-    use({ 'folke/lsp-colors.nvim' })
+    use({ 'folke/lsp-colors.nvim' }) -- needed for gruvbox
 
     use({
         "folke/which-key.nvim",
@@ -91,14 +91,16 @@ return require('packer').startup(function(use)
         'glepnir/lspsaga.nvim',
         branch = 'main',
         -- TODO Prevent write on finder open?
-        config = function() require('lspsaga').init_lsp_saga({
+        -- config = function() require('lspsaga').init_lsp_saga({
+        config = function() require('lspsaga').setup({
                 finder_action_keys = {
                     open = { "o", "<CR>" },
                 },
-                code_action_lightbulb = {
+                lightbulb = {
                     enable = false,
                     virtual_text = false,
                 },
+                symbol_in_winbar = { enable = false },
             })
         end,
         after = 'which-key.nvim',

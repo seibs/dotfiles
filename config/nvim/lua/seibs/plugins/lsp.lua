@@ -7,7 +7,8 @@ local on_attach = function(client, bufnr)
     require('lsp-inlayhints').on_attach(client, bufnr)
 end
 
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+-- local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 require('lspconfig')['pyright'].setup {
     on_attach = on_attach,
@@ -42,7 +43,7 @@ require('lspconfig')['tsserver'].setup {
         },
     }
 }
-require('lspconfig')['sumneko_lua'].setup {
+require('lspconfig')['lua_ls'].setup {
     on_attach = on_attach,
     capabilities = capabilities,
     settings = {
