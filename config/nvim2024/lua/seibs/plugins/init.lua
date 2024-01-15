@@ -20,10 +20,10 @@ local plugins = {
             integrations = {
                 cmp = true,
                 gitsigns = true,
-                lsp_saga = true,
                 treesitter = true,
                 telescope = true,
                 which_key = true,
+                harpoon = true,
             }
         },
         config = function(plugin, opts)

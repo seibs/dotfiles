@@ -125,7 +125,7 @@ KEYMAPS['telescope'] = {
         ['<C-n>'] = {
             function()
                 require('telescope').extensions.file_browser.file_browser({
-                    depth = 2,
+                    depth = 1,
                     grouped = true,
                     hidden = true,
                 })

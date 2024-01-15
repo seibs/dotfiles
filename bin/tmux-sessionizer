@@ -4,7 +4,7 @@
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(fd --exact-depth 1 --type d . ~/clones ~/Projects ~/ 2>/dev/null | fzf --height=40% --layout=reverse --border)
+    selected=$(fd --exact-depth 1 --type d . ~/clones ~/Projects ~/ ~/src 2>/dev/null | fzf --height=20% --layout=reverse --border)
 fi
 
 if [[ -z $selected ]]; then
@@ -23,7 +23,7 @@ if ! tmux has-session -t=$selected_name 2> /dev/null; then
     tmux new-session -ds $selected_name -c $selected
 fi
 
-if [[ -n $tmux_running ]]; then
+if [[ -z $tmux_running ]]; then
     tmux attach-session -t $selected_name
 else
     tmux switch-client -t $selected_name
