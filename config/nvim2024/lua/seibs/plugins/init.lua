@@ -173,9 +173,7 @@ local plugins = {
     {
         'ThePrimeagen/harpoon',
         dependencies = { 'nvim-lua/plenary.nvim' },
-        opts = {},
-        config = function(plugin, opts)
-            require('harpoon').setup(opts)
+        config = function()
             require('seibs.mappings').register('harpoon')
         end,
     },
