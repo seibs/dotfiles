@@ -49,7 +49,17 @@ local plugins = {
                         require("seibs.mappings").register("wide-to-long", bufnr)
                     end,
                 }
-            }
+            },
+
+            {
+                "nvim-orgmode/orgmode",
+                event = 'VeryLazy',
+                opts = {
+                    org_agenda_files = { '~/org/*' },
+                    org_default_notes_file = '~/org/refile.org',
+                    org_todo_keywords = {'TODO(t!)', 'NEXT(n!)', 'BACKLOG(b!)', '|', 'DONE(d!)', 'CANCELED(c!)', 'MEETING(m!)'}
+                },
+            },
         },
         build = ":TSUpdate",
         config = function() require("seibs.plugins.nvim-treesitter") end,
