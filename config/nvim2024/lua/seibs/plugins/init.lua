@@ -120,7 +120,6 @@ local plugins = {
             "nvim-telescope/telescope-file-browser.nvim",
         },
         config = function() require("seibs.plugins.telescope") end,
-        after = "which-key.nvim",
     },
 
     {
