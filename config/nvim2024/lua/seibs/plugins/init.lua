@@ -186,6 +186,11 @@ local plugins = {
         config = function() require("seibs.plugins.metals") end,
     },
 
+    {
+        "mbbill/undotree",
+        config = function() require("seibs.mappings").register("undotree") end,
+    },
+
     -- Stuff I"m dropping but may want to revisit for other solutions
     -- TODO Dropping lspsaga, should find replacements for useful things like
     -- definitions/refererences box, code actions popup, etc.

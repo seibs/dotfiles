@@ -184,6 +184,11 @@ KEYMAPS['harpoon'] = {
         }
     }
 }
+KEYMAPS['undotree'] = {
+    n = {
+        ['<leader>u'] = { vim.cmd.UndotreeToggle, 'Undo Tree Toggle' },
+    },
+}
 
 local M = {}
 
