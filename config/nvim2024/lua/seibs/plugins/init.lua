@@ -198,6 +198,72 @@ local plugins = {
         config = function() require("seibs.mappings").register("undotree") end,
     },
 
+    {
+        "epwalsh/obsidian.nvim",
+        version = "*",
+        lazy = true,
+        event = {
+          "BufReadPre /Users/seibs/vault/**.md",
+          "BufNewFile /Users/seibs/vault/**.md",
+        },
+        dependencies = { "nvim-lua/plenary.nvim" },
+        opts = {
+            workspaces = {
+                { name = "notes", path = "~/vault/notes" },
+            },
+            daily_notes = {
+                folder = "dailies",
+                template = "daily.md",
+            },
+            notes_subdir = "notes",
+            templates = {
+                subdir = "templates",
+                substitutions = {
+                    year = function()
+                        return os.date("%Y", os.time())
+                    end,
+                    month = function()
+                        return os.date("%m", os.time())
+                    end,
+                    yesterday = function()
+                        return os.date("%Y-%m-%d", os.time() - 86400)
+                    end,
+                    tomorrow = function()
+                        return os.date("%Y-%m-%d", os.time() + 86400)
+                    end
+                },
+            },
+            note_id_func = function(title)
+                -- Create note IDs in a Zettelkasten format with a timestamp and a suffix.
+                -- In this case a note with the title 'My new note' will be given an ID that looks
+                -- like '1657296016-my-new-note', and therefore the file name '1657296016-my-new-note.md'
+                local suffix = ""
+                if title ~= nil then
+                    -- If title is given, transform it into valid file name.
+                    suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+                else
+                    -- If title is nil, just add 4 random uppercase letters to the suffix.
+                    for _ = 1, 4 do
+                        suffix = suffix .. string.char(math.random(65, 90))
+                    end
+                end
+                return tostring(os.date("%Y%m%d%H%M", os.time())) .. "-" .. suffix
+            end,
+        },
+    },
+
+    {
+        dir = "~/Projects/nvim-plugins/obsidian-logbook.nvim",
+        name = "obsidian-logbook",
+        dependencies = { "obsidian.nvim" },
+        lazy = true,
+        event = {
+          "BufReadPre /Users/seibs/vault/**.md",
+          "BufNewFile /Users/seibs/vault/**.md",
+        },
+        config = function() require("seibs.mappings").register("obsidian-logbook") end,
+    },
+
     -- Stuff I"m dropping but may want to revisit for other solutions
     -- TODO Dropping lspsaga, should find replacements for useful things like
     -- definitions/refererences box, code actions popup, etc.

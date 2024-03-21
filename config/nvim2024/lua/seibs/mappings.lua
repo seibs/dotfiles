@@ -11,8 +11,8 @@ KEYMAPS['general'] = {
         ['<leader><cr>'] = { '<cmd>noh<cr>', 'Hide highlights' },
         ['<leader>ev'] = { ':vsplit $MYVIMRC<cr>', 'Edit vimrc' },
         ['<leader>sv'] = { ':source $MYVIMRC<cr>', 'Source vimrc' },
-        ['<Tab>'] = { ':bn<cr>', 'Next buffer' },
-        ['<S-Tab>'] = { ':bp<cr>', 'Next buffer' },
+        -- ['<Tab>'] = { ':bn<cr>', 'Next buffer' },
+        -- ['<S-Tab>'] = { ':bp<cr>', 'Next buffer' },
         ['<leader>b'] = { ':ls<cr>:b<space>', 'Jump to buffer' },
         ['[e'] = { vim.diagnostic.goto_prev, 'Go to previous diagnostic message' },
         [']e'] = { vim.diagnostic.goto_next, 'Go to next diagnostic message' },
@@ -184,9 +184,17 @@ KEYMAPS['harpoon'] = {
         }
     }
 }
+
 KEYMAPS['undotree'] = {
     n = {
         ['<leader>u'] = { vim.cmd.UndotreeToggle, 'Undo Tree Toggle' },
+    },
+}
+
+KEYMAPS['obsidian-logbook'] = {
+    n = {
+        ['<leader>oxi'] = { function() require('obsidian-logbook').clock_in() end, 'Clock in to Obsidian note' },
+        ['<leader>oxo'] = { function() require('obsidian-logbook').clock_out() end, 'Clock out of Obsidian note' },
     },
 }
 
